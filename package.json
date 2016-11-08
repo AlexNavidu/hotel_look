@@ -1,0 +1,19 @@
+{
+  "name": "hotel_look",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Monstermosh86/hotel_look.git"
+  },
+  "author": "Aleksander Borovtsov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Monstermosh86/hotel_look/issues"
+  },
+  "homepage": "https://github.com/Monstermosh86/hotel_look#readme"
+}
