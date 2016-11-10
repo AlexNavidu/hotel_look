@@ -1,3 +1,5 @@
 # hotel_look
 
-Тренировоный application
+application
+
+ES5 метод описания компонентов
