@@ -29,6 +29,8 @@ const HOTELS = [
    	}
 ];		
 
+const MAX_DESCRIPTION_LENGTH = 100;
+
 // компонент для одной карточки отеля
 const HotelCart = React.createClass({
 	render() {
@@ -52,7 +54,11 @@ const HotelCart = React.createClass({
 					</h3>
 
 					<p className="hotel-description">
-						{description}
+						{
+							description.length > MAX_DESCRIPTION_LENGTH 
+							?  description.substring(0, MAX_DESCRIPTION_LENGTH) + '...' 
+							: description
+						}
 					</p>
 				</div>
 
@@ -71,11 +77,51 @@ const HotelCart = React.createClass({
 	}
 });
 
-//создадим компонент HotelApp, дочерний компонент HotelCart
+// компонент - поиск
+const SearchBar = React.createClass({
+	render() {
+		return (
+			<div className="search-bar">
+				<i className="search-icon fa fa-search" />
+
+				<input 
+					className="search-input"
+					type="text"
+					placeholder="Поиск отелей"
+					onChange={this.props.onSearch}
+				/>
+			</div>
+		);
+	}
+});
+
+//компонент HotelApp 
 const HotelApp = React.createClass({
+	// своя локальное состояние
+	getInitialState() {
+		return {
+			displayedHotels: HOTELS
+		};
+	},
+
+	// метод React  JS - обработчик событий
+	handleSearch(e) {
+		const searchQuery = e.target.value.toLowerCase();
+
+		const displayedHotels = HOTELS.filter(hotel => {
+			const searchString = hotel.name.toLowerCase() + hotel.description.toLowerCase();
+
+			return searchString.indexOf(searchQuery) != -1;
+		})
+		// метод для изменения состояния - обновляет состояния.
+		this.setState({
+			displayedHotels
+		});
+	},
+
 	render() {
 		// map - метод(JS) для перебора массива
-		const hotelCards = HOTELS.map(hotel => 
+		const hotelCards = this.state.displayedHotels.map(hotel => 
 			<HotelCart 
 				key={hotel.id}
 				id={hotel.id}
@@ -86,11 +132,13 @@ const HotelApp = React.createClass({
 				reating={hotel.rating}
 				price={hotel.price}
 			/>
-		); 
+		);
 
 		return (
 			<div className="app">
 				<div className="header">Hotel Look</div>
+
+				<SearchBar onSearch={this.handleSearch} />
 
 				<div className="hotels-list">
 					{hotelCards}
